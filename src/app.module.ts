@@ -1,19 +1,16 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
     TypeOrmModule.forRoot({
+      database: 'postgres',
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
+      host: 'aws-0-us-east-2.pooler.supabase.com',
+      port: +'5432',
+      username: 'postgres.rdtkdkyuirlxbhqkoaoy',
+      password: 'ecommerce123',
       autoLoadEntities: true,
-      synchronize: true,
     }),
   ],
 })
