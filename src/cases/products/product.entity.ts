@@ -1,4 +1,4 @@
-import { Category } from "src/case/categories/category.entity";
+import { Category } from "src/cases/categories/category.entity";
 import { Brand } from "../brands/brand.entity";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 @Entity('product')
