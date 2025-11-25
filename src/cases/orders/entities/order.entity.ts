@@ -1,34 +1,42 @@
-/* eslint-disable prettier/prettier */
-import { Custumer } from "src/cases/custumers/custumer.entity";
-import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import { Customer } from "src/cases/customers/customer.entity";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { OrderItem } from "./order-item.entity";
 
-enum OrderStatus{
-    NEW='NEW',
+enum OrderStatus {
+    NEW = 'NEW',
     SEPARATION = 'SEPARATION',
     INVOICED = 'INVOICED',
+    SHIPPED = 'SHIPPED',
     DELIVERED = 'DELIVERED',
     CANCELED = 'CANCELED'
 }
+
 @Entity('order')
 export class Order {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(()=> Custumer, {eager:true, nullable: false})
-    custumer : Custumer;
+    @ManyToOne(() => Customer, { eager: true, nullable: false })
+    customer: Customer;
 
-    @Column('decimal', {nullable: true,precision: 10,scale:2})
-    shipping : number;
+    @Column('decimal', { nullable: false, precision: 10, scale: 2 })
+    shipping: number;
 
-    @Column('enum', {enum: OrderStatus, default: OrderStatus.NEW})
-    status : OrderStatus;
+    @Column('enum', { nullable: false, enum: OrderStatus, default: OrderStatus.NEW })
+    status: string;
 
-    @Column('decimal',{nullable: true,precision: 10, scale:2})
+    @Column('decimal', { nullable: false, precision: 10, scale: 2 })
     total: number;
 
+    @OneToMany(() => OrderItem, (item) => item.order, {
+        eager: true,
+        cascade: true
+    })
+    items: OrderItem[];
+
     @CreateDateColumn()
-    creatAt: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updateAt: Date;
+    updatedAt: Date;
 }
